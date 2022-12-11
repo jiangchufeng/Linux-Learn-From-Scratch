@@ -1,0 +1,66 @@
+    apt-get update
+    apt-get install host
+    echo -e 'zone "test.com"{\n\ttype master;\n\tfile "/etc/bind/db.test.com";\n};\nzone "211.40.10.in-addr.arpa"{\n\ttype master;\n\tfile "/etc/bind/db.10";\n};'  >> /etc/bind/named.conf.default-zones
+    touch /etc/bind/db.test.com
+    echo -e ';\n; BIND data file for local loopback interface\n;\n$TTL 604800\n@\tIN\tSOA\ttest.com. root.test.com. (\n\t2\t; Serial\n\t604800\t; Refresh\n\t86400\t; Retry\n\t2419200\t ; Expire\n\t604800 )\t; Negative Cache TTL\n;\n@\tIN\tNS\ttest.com.\n@\tIN\tA\t10.40.211.244' > /etc/bind/db.test.com
+    touch /etc/bind/db.10
+    echo -e ';\n; BIND reverse data file for local loopback interface\n;\n$TTL 604800\n@\tIN\tSOA\ttest.com. root.test.com.(\n\t1\t; Serial\n\t604800\t; Refresh\n\t86400\t; Retry\n\t2419200\t; Expire\n\t604800 )\t; Negative Cache TTL\n;\n@\tIN\tNS\ttest.com.\n244\tIN\tPTR\ttest.com.' > /etc/bind/db.10
+    echo -e 'nameserver 127.0.0.1\nsearch default.svc.cluster.local svc.cluster.local cluster.local\noptions ndots:5' > /etc/resolv.conf
+    service bind9 restart
+    host test.com
+    host 10.40.211.244
+
+
+
+//如果一直报错就需要从第一关开始重新做
+版本库代码路径：/data/workspace/myshixun/
+root@evassh-15737193:~# apt-get update
+Hit:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial InRelease
+Hit:2 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-updates InRelease
+Hit:3 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-backports InRelease
+Hit:4 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-security InRelease
+Reading package lists... Done                      
+root@evassh-15737193:~# apt-get install host
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages were automatically installed and are no longer required:
+  bridge-utils iptables libnfnetlink0
+Use 'apt autoremove' to remove them.
+The following additional packages will be installed:
+  bind9-host
+The following NEW packages will be installed:
+  bind9-host host
+0 upgraded, 2 newly installed, 0 to remove and 107 not upgraded.
+Need to get 43.3 kB of archives.
+After this operation, 170 kB of additional disk space will be used.
+Do you want to continue? [Y/n] Y
+Get:1 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-updates/main amd64 bind9-host amd64 1:9.10.3.dfsg.P4-8ubuntu1.19 [38.3 kB]
+Get:2 http://mirrors.tuna.tsinghua.edu.cn/ubuntu xenial-updates/universe amd64 host all 1:9.10.3.dfsg.P4-8ubuntu1.19 [5014 B]
+Fetched 43.3 kB in 0s (204 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package bind9-host.
+(Reading database ... 68422 files and directories currently installed.)
+Preparing to unpack .../bind9-host_1%3a9.10.3.dfsg.P4-8ubuntu1.19_amd64.deb ...
+Unpacking bind9-host (1:9.10.3.dfsg.P4-8ubuntu1.19) ...
+Selecting previously unselected package host.
+Preparing to unpack .../host_1%3a9.10.3.dfsg.P4-8ubuntu1.19_all.deb ...
+Unpacking host (1:9.10.3.dfsg.P4-8ubuntu1.19) ...
+Processing triggers for man-db (2.7.5-1) ...
+Setting up bind9-host (1:9.10.3.dfsg.P4-8ubuntu1.19) ...
+Setting up host (1:9.10.3.dfsg.P4-8ubuntu1.19) ...
+root@evassh-15737193:~# echo -e 'zone "test.com"{\n\ttype master;\n\tfile "/etc/bind/db.test.com";\n};\nzone "211.40.10.in-addr.arpa"{\n\ttype master;\n\tfile "/etc/bind/db.10";\n};'  >> /etc/bind/named.conf.default-zones
+root@evassh-15737193:~# touch /etc/bind/db.test.com
+root@evassh-15737193:~# echo -e ';\n; BIND data file for local loopback interface\n;\n$TTL 604800\n@\tIN\tSOA\ttest.com. root.test.com. (\n\t2\t; Serial\n\t604800\t; Refresh\n\t86400\t; Retry\n\t2419200\t ; Expire\n\t604800 )\t; Negative Cache TTL\n;\n@\tIN\tNS\ttest.com.\n@\tIN\tA\t10.40.211.244' > /etc/bind/db.test.com
+root@evassh-15737193:~# touch /etc/bind/db.10
+root@evassh-15737193:~# echo -e ';\n; BIND reverse data file for local loopback interface\n;\n$TTL 604800\n@\tIN\tSOA\ttest.com. root.test.com.(\n\t1\t; Serial\n\t604800\t; Refresh\n\t86400\t; Retry\n\t2419200\t; Expire\n\t604800 )\t; Negative Cache TTL\n;\n@\tIN\tNS\ttest.com.\n244\tIN\tPTR\ttest.com.' > /etc/bind/db.10
+root@evassh-15737193:~# echo -e 'nameserver 127.0.0.1\nsearch default.svc.cluster.local svc.cluster.local cluster.local\noptions ndots:5' > /etc/resolv.conf
+root@evassh-15737193:~# service bind9 restart
+ * Stopping domain name service... bind9                                            waiting for pid 1490 to die
+                                                                             [ OK ]
+ * Starting domain name service... bind9                                     [ OK ] 
+root@evassh-15737193:~# host test.com
+;; connection timed out; no servers could be reached
+root@evassh-15737193:~# host test.com
+test.com has address 10.40.211.244
+root@evassh-15737193:~# 

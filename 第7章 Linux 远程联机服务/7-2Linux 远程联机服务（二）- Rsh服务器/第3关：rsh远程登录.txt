@@ -1,0 +1,5 @@
+    useradd RshUser
+    passwd RshUser
+    rsh -l RshUser localhost(输入RshUser用户密码)
+    touch /tmp/testFile
+    exit

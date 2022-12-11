@@ -1,0 +1,3 @@
+    apt-get update
+    apt-get install rsh-server
+    apt-get install rsh-client

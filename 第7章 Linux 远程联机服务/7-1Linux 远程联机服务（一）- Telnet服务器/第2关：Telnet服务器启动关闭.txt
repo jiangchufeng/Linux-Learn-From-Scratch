@@ -1,0 +1,3 @@
+service openbsd-inetd start
+
+#或者sudo service openbsd-inetd start

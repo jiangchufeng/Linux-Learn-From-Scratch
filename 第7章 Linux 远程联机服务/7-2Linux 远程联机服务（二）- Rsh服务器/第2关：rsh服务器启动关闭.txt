@@ -1,0 +1,6 @@
+    apt-get update
+    apt-get install rsh-server
+    apt-get install rsh-client
+    service openbsd-inetd start
+
+#这一题要重新装一遍

@@ -1,0 +1,5 @@
+    useradd testUser
+    passwd testUser
+    telnet localhost(使用testUser登录)
+    touch /tmp/testFile
+    logout

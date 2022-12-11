@@ -1,0 +1,8 @@
+#apt-get中间没有空格
+apt-get update
+apt-get install telnetd
+apt-get install telnet
+
+#在虚拟机上如果不是root用户，需要加sudo
+#sudo apt-get update
+#然后输入密码
