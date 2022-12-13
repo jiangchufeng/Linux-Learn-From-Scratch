@@ -1,0 +1,7 @@
+vim /etc/samba/smb.conf 结尾追加内容]
+
+    service smbd restart
+    smbclient //127.0.0.1/testUser -U testUser%(密码)
+    smb: \> mkdir Dir
+    smb: \> put /root/testFile Dir/upLoadFile
+    smb: \> exit

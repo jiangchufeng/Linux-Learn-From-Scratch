@@ -1,0 +1,20 @@
+root@evassh-15773458:~# 
+root@evassh-15773458:~# mkdir /testDir
+root@evassh-15773458:~# chmod 777 /testDir
+root@evassh-15773458:~# useradd testUser
+root@evassh-15773458:~# smbpasswd -a testUser
+New SMB password:
+Retype new SMB password:
+Added user testUser.
+root@evassh-15773458:~# touch testFile
+
+/////////////////////////////////////////////////
+service smbd restart
+
+追加内容
+
+    service smbd restart
+    smbclient //127.0.0.1/TestShare -U testUser%(密码)
+    smb: \> mkdir Dir
+    smb: \> put /root/testFile Dir/upLoadFile
+    smb: \> exit

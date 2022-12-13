@@ -1,0 +1,7 @@
+第一步：# mkdir /var/www/html/test 
+第二步：# cp /var/www/html/index.html /var/www/html/test
+第三步：vim /etc/apache2/ports.conf
+将原来的 Listen 80 改成 Listen 8011  Listen 8012 （只用改这一处，其他不变）
+第四步：vim /etc/apache2/sites-enabled/000-default.conf
+将原来的VirtualHost *80 改成VirtualHost *8012
+并且将 DocumentRoot /var/www/html 改成 DocumentRoot /var/www/html/test

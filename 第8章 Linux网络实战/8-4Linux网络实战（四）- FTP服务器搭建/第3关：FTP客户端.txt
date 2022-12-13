@@ -1,0 +1,56 @@
+先初始化文件（用vim修改配置文件/etc/vsftpd.conf 将anonymous_enable设置为YES,将anon_upload_enable=YES、write_enable=YES和anon_mkdir_write_enable=YES前的#符号删除(低行模式下光标移动到那里按x即可), 其他的复制下面代码即可）
+
+
+    echo -e "anon_root=/\nanon_other_write_enable=YES\nanon_umask=022" >> /etc/vsftpd.conf
+    修改完配置文件后重启vsftpd(重要！)
+    service vsftpd restart
+    apt-get update
+    apt-get -y install ftp
+    touch testFile
+    ftp localhost
+    输入anonymous, 密码不填 回车就行
+    cd tmp
+    mkdir Dir
+    send /root/testFile Dir/upLoadFile
+    exit
+
+////////////////////////////////////////
+
+    service vsftpd restart
+    ftp localhost
+    FTP>>anonymous(使用匿名登录)
+    FTP>>回车(无需输入密码)
+    FTP>>cd tmp
+    FTP>>mkdir Dir
+    FTP>>send /root/testFile Dir/upLoadFile
+    FTP>>close
+    FTP>>bye
+
+
+/////////////////////////////////////////
+root@evassh-15773509:~# touch testFile
+root@evassh-15773509:~# service vsftpd restart
+ * Stopping FTP server vsftpd                                                [ OK ] 
+ * Starting FTP server vsftpd                                                [ OK ] 
+root@evassh-15773509:~# ftp localhost
+Connected to localhost.
+220 (vsFTPd 3.0.3)
+Name (localhost:root): anonymous
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> cd tmp
+250 Directory successfully changed.
+ftp> mkdir Dir
+257 "/tmp/Dir" created
+ftp> send /root/testFile Dir/upLoadFile
+local: /root/testFile remote: Dir/upLoadFile
+200 PORT command successful. Consider using PASV.
+150 Ok to send data.
+226 Transfer complete.
+ftp> close
+221 Goodbye.
+ftp> bye
+root@evassh-15773509:~# 
